@@ -42,7 +42,7 @@ to{-o-transform:translate(-1px,0px) scale(1.01,1.06) skew(-0.9deg,0deg)}}@keyfra
     text = 'input:disabled{ cursor:not-allowed; }'
     style.append(text)
     document.head.append(style);
-    
+
     // 添加div
     let div = document.createElement('div')
     div.id = 'lampadario'
