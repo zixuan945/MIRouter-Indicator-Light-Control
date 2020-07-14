@@ -51,9 +51,10 @@ to{-o-transform:translate(-1px,0px) scale(1.01,1.06) skew(-0.9deg,0deg)}}@keyfra
     document.body.prepend(div)
 
     let inputElement = document.querySelectorAll('input[name=switch]')
-    let url = window.location.href;
-    let token = url.match('stok=(.*?)(?=\/)')[1];
-    let url_led = `http://192.168.31.1/cgi-bin/luci/;stok=${token}/api/misystem/led`;
+    let href = window.location.href;
+    let origin = window.location.origin;
+    let token = href.match('stok=(.*?)(?=\/)')[1];
+    let url_led = `${origin}/cgi-bin/luci/;stok=${token}/api/misystem/led`;
     let count = 0;
     const maxCount = 5; //最大点击次数
 
