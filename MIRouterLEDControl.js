@@ -2,9 +2,9 @@
 // @name            小米路由器web端灯光控制
 // @name:en         MIRouter Indicator Light Control
 // @namespace       https://github.com/zixuan945/MIRouter-Indicator-Light-Control
-// @version         0.2
-// @description:en  Add web control for mi router indicator light
+// @version         0.2.1
 // @description     为小米路由器web端添加开关指示灯功能
+// @description:en  Add web control for mi router indicator light
 // @author          zixuan
 // @icon            data:image/png;base64,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
 // @match           http://192.168.31.1/cgi-bin/luci/;stok=*
@@ -42,6 +42,7 @@ to{-o-transform:translate(-1px,0px) scale(1.01,1.06) skew(-0.9deg,0deg)}}@keyfra
     text = 'input:disabled{ cursor:not-allowed; }'
     style.append(text)
     document.head.append(style);
+    
     // 添加div
     let div = document.createElement('div')
     div.id = 'lampadario'
@@ -50,13 +51,13 @@ to{-o-transform:translate(-1px,0px) scale(1.01,1.06) skew(-0.9deg,0deg)}}@keyfra
     document.body.prepend(div)
 
     let inputElement = document.querySelectorAll('input[name=switch]')
-    inputElement.forEach(input => input.addEventListener('change', onChange))
     let url = window.location.href;
     let token = url.match('stok=(.*?)(?=\/)')[1];
     let url_led = `http://192.168.31.1/cgi-bin/luci/;stok=${token}/api/misystem/led`;
     let count = 0;
     const maxCount = 5; //最大点击次数
 
+    inputElement.forEach(input => input.addEventListener('change', onChange))
     statusInitialize();
 
     async function getStatus(url) {
@@ -85,9 +86,9 @@ to{-o-transform:translate(-1px,0px) scale(1.01,1.06) skew(-0.9deg,0deg)}}@keyfra
 
     function onChange() {
         let checked = document.querySelector('[name=switch]:checked')
-        console.log('选中的值:', checked.value + '\n' + count);
         let url = url_led + (checked.value === 'on' ? '?on=1' : '?on=0');
         count++;
+
         if (count <= maxCount) {
             getStatus(url);
         } else {
