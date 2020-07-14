@@ -91,6 +91,8 @@ to{-o-transform:translate(-1px,0px) scale(1.01,1.06) skew(-0.9deg,0deg)}}@keyfra
 
         if (count <= maxCount) {
             getStatus(url);
+            //TODO:增加getStatus的状态检测以及切换成功的对话框提示
+
         } else {
             //获取input的checked状态，并赋给常亮防止被修改
             const inputChecked = inputElement[0].checked
