@@ -2,7 +2,7 @@
 // @name            小米路由器web端灯光控制
 // @name:en         MIRouter Indicator Light Control
 // @namespace       https://github.com/zixuan945/MIRouter-Indicator-Light-Control
-// @version         0.2.2
+// @version         0.2.3
 // @description     为小米路由器web端添加开关指示灯功能
 // @description:en  Add web control for mi router indicator light
 // @author          zixuan
