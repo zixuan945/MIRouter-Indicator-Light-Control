@@ -11,17 +11,16 @@
 // @match           http://miwifi.com/cgi-bin/luci/;stok=*
 // @require         https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.js
 
-
 // ==/UserScript==
 
 (function () {
-    'use strict';
+  "use strict";
 
-    // Your code here...
-    // 添加灯泡CSS样式
-    let style = document.createElement("style");
-    style.type = "text/css";
-    let text = document.createTextNode(`#lampadario{position:fixed;left:90%;top:0;z-index:999}#filo{position:relative;background-color:#000;width:2px;height:150px;left:50%;margin-left:-1px;z-index:1;-webkit-transform-origin:0 0;-moz-transform-origin:0 0;-ms-transform-origin:0 0;-o-transform-origin:0 0;transform-origin:0 0;-webkit-animation:oscillaFilo .9s ease-in-out 0s infinite alternate;-moz-animation:oscillaFilo .9s ease-in-out 0s infinite alternate;-ms-animation:oscillaFilo .9s ease-in-out 0s infinite alternate;-o-animation:oscillaFilo .9s ease-in-out 0s infinite alternate;animation:oscillaFilo .9s ease-in-out 0s infinite alternate}
+  // Your code here...
+  // 添加灯泡CSS样式
+  let style = document.createElement("style");
+  style.type = "text/css";
+  let text = document.createTextNode(`#lampadario{position:fixed;left:90%;top:0;z-index:999}#filo{position:relative;background-color:#000;width:2px;height:150px;left:50%;margin-left:-1px;z-index:1;-webkit-transform-origin:0 0;-moz-transform-origin:0 0;-ms-transform-origin:0 0;-o-transform-origin:0 0;transform-origin:0 0;-webkit-animation:oscillaFilo .9s ease-in-out 0s infinite alternate;-moz-animation:oscillaFilo .9s ease-in-out 0s infinite alternate;-ms-animation:oscillaFilo .9s ease-in-out 0s infinite alternate;-o-animation:oscillaFilo .9s ease-in-out 0s infinite alternate;animation:oscillaFilo .9s ease-in-out 0s infinite alternate}
 #filo:after{content:" ";left:-5px;top:100%;position:absolute;border-bottom:15px solid #000;border-left:4px solid transparent;border-right:4px solid transparent;height:0;width:4px}
 #lampadina{position:relative}input[value="off"]:checked~#filo{-webkit-box-shadow:-80px -10px 7px 0 rgba(0,0,0,0.1);-moz-box-shadow:-80px -10px 7px 0 rgba(0,0,0,0.1);-ms-box-shadow:-80px -10px 7px 0 rgba(0,0,0,0.1);-o-box-shadow:-80px -10px 7px 0 rgba(0,0,0,0.1);box-shadow:-80px -10px 7px 0 rgba(0,0,0,0.1)}
 input[value="off"]:checked~#filo:after{-webkit-box-shadow:-80px -10px 10px -2px rgba(0,0,0,0.1);-moz-box-shadow:-80px -10px 10px -2px rgba(0,0,0,0.1);-ms-box-shadow:-80px -10px 10px -2px rgba(0,0,0,0.1);-o-box-shadow:-80px -10px 10px -2px rgba(0,0,0,0.1);box-shadow:-80px -10px 10px -2px rgba(0,0,0,0.1)}
@@ -40,96 +39,92 @@ to{-o-transform:rotate(-3deg) translate(16.4px,-1px)}}@keyframes oscillaLampadin
 to{-webkit-transform:translate(-1px,0px) scale(1.01,1.06) skew(-0.9deg,0deg)}}@-moz-keyframes ombraTesto{from{-moz-transform:translate(1px,0px) scale(1.01,1.06) skew(0.9deg,0deg)}to{-moz-transform:translate(-1px,0px) scale(1.01,1.06) skew(-0.9deg,0deg)}
 }@-ms-keyframes ombraTesto{from{-ms-transform:translate(1px,0px) scale(1.01,1.06) skew(0.9deg,0deg)}to{-ms-transform:translate(-1px,0px) scale(1.01,1.06) skew(-0.9deg,0deg)}}@-o-keyframes ombraTesto{from{-o-transform:translate(1px,0px) scale(1.01,1.06) skew(0.9deg,0deg)}
 to{-o-transform:translate(-1px,0px) scale(1.01,1.06) skew(-0.9deg,0deg)}}@keyframes ombraTesto{from{transform:translate(1px,0px) scale(1.01,1.06) skew(0.9deg,0deg)}to{transform:translate(-1px,0px) scale(1.01,1.06) skew(-0.9deg,0deg)}
-}`)
-    style.append(text);
-    text = 'input:disabled{ cursor:not-allowed; }';
-    style.append(text);
-    document.head.append(style);
+}`);
+  style.append(text);
+  text = "input:disabled{ cursor:not-allowed; }";
+  style.append(text);
+  document.head.append(style);
 
+  // 添加灯泡div
+  let div = document.createElement("div");
+  div.id = "lampadario";
+  div.innerHTML = `<input type="radio" name="switch" value="on"/> <input type="radio" name="switch" value="off" checked="checked"/> <label for="switch"></label> <div id="filo"></div> <div id="lampadina"> <div id="sorpresa"> </div> </div>`;
+  document.body.prepend(div);
 
-    // 添加灯泡div
-    let div = document.createElement('div')
-    div.id = 'lampadario'
-    div.innerHTML =
-        `<input type="radio" name="switch" value="on"/> <input type="radio" name="switch" value="off" checked="checked"/> <label for="switch"></label> <div id="filo"></div> <div id="lampadina"> <div id="sorpresa"> </div> </div>`
-    document.body.prepend(div)
+  let inputElement = document.querySelectorAll("input[name=switch]");
+  let href = window.location.href;
+  let origin = window.location.origin;
+  let token = href.match("stok=(.*?)(?=/)")[1];
+  let url_led = `${origin}/cgi-bin/luci/;stok=${token}/api/misystem/led`;
+  let count = 0;
+  const maxCount = 5; //最大点击次数
+  //添加通知
+  let link = document.createElement("link");
+  link.href = "https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.css";
+  link.rel = "stylesheet";
+  document.head.append(link);
+  // eslint-disable-next-line no-undef
+  var notyf = new Notyf({
+    duration: 3000,
+    position: {
+      x: "right",
+      y: "top",
+    },
+    types: [
+      {
+        type: "error",
+        background: "indianred",
+        // duration: 5000,
+        dismissible: true,
+        icon: false,
+      },
+    ],
+  });
 
-    let inputElement = document.querySelectorAll('input[name=switch]')
-    let href = window.location.href;
-    let origin = window.location.origin;
-    let token = href.match('stok=(.*?)(?=\/)')[1];
-    let url_led = `${origin}/cgi-bin/luci/;stok=${token}/api/misystem/led`;
-    let count = 0;
-    const maxCount = 5; //最大点击次数
-    //添加通知
-    let link = document.createElement('link');
-    link.href = "https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.css";
-    link.rel = "stylesheet";
-    document.head.append(link);
-    var notyf = new Notyf({
-        duration: 3000,
-        position: {
-            x: 'right',
-            y: 'top',
-        },
-        types: [{
-            type: 'error',
-            background: 'indianred',
-            // duration: 5000,
-            dismissible: true,
-            icon: false
-        }]
+  inputElement.forEach((input) => input.addEventListener("change", onChange));
+  statusInitialize();
+
+  async function getStatus(url) {
+    let response = await fetch(url);
+    let statusCode = await response.json();
+    return statusCode;
+  }
+
+  function statusInitialize() {
+    let statusCode = getStatus(url_led);
+    statusCode.then((value) => {
+      if (value.code === 0) {
+        // {status: 0, code: 0} status:0 灯关 1 灯开
+        // inputElement[0].checked = true 对应灯开
+        inputElement[0].checked = value.status;
+        notyf.success("灯泡状态已初始化完成");
+      } else {
+        console.log(value);
+      }
     });
 
-    inputElement.forEach(input => input.addEventListener('change', onChange))
-    statusInitialize();
+    //TODO:将开关灯代码抽象出来
+    //学习节流和防抖的区别，限制click点击频率
+  }
 
-    async function getStatus(url) {
-        let response = await fetch(url);
-        let statusCode = await response.json()
-        return statusCode
+  function onChange() {
+    let checked = document.querySelector("[name=switch]:checked");
+    let url = url_led + (checked.value === "on" ? "?on=1" : "?on=0");
+    count++;
 
-    };
-
-    function statusInitialize() {
-        let statusCode = getStatus(url_led)
-        statusCode.then(value => {
-            if (value.code === 0) {
-                // {status: 0, code: 0} status:0 灯关 1 灯开
-                // inputElement[0].checked = true 对应灯开
-                inputElement[0].checked = value.status;
-                notyf.success('灯泡状态已初始化完成');
-            } else {
-                console.log(value)
-            }
-
-        })
-
-        //TODO:将开关灯代码抽象出来
-        //学习节流和防抖的区别，限制click点击频率
-    };
-
-    function onChange() {
-        let checked = document.querySelector('[name=switch]:checked');
-        let url = url_led + (checked.value === 'on' ? '?on=1' : '?on=0');
-        count++;
-
-        if (count <= maxCount) {
-            getStatus(url);
-            //TODO:增加getStatus的状态检测以及切换成功的对话框提示
-
-        } else {
-            //获取input的checked状态，并赋给常亮防止被修改
-            const inputChecked = inputElement[0].checked;
-            //设置元素不可点击
-            inputElement.forEach(input => input.disabled = true);
-            //保证两个input的checked属性相反，如果均为false则灯泡不显示
-            inputElement[0].checked = !inputChecked;
-            inputElement[1].checked = inputChecked;
-            notyf.error('您点击得太频繁了，功能已被禁用！')
-            // alert('您点击得太频繁了，功能已被禁用！')
-
-        };
-    };
-
+    if (count <= maxCount) {
+      getStatus(url);
+      //TODO:增加getStatus的状态检测以及切换成功的对话框提示
+    } else {
+      //获取input的checked状态，并赋给常亮防止被修改
+      const inputChecked = inputElement[0].checked;
+      //设置元素不可点击
+      inputElement.forEach((input) => (input.disabled = true));
+      //保证两个input的checked属性相反，如果均为false则灯泡不显示
+      inputElement[0].checked = !inputChecked;
+      inputElement[1].checked = inputChecked;
+      notyf.error("您点击得太频繁了，功能已被禁用！");
+      // alert('您点击得太频繁了，功能已被禁用！')
+    }
+  }
 })();
