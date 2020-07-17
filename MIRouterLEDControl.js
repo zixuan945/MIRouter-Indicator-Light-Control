@@ -98,8 +98,13 @@ to{-o-transform:translate(-1px,0px) scale(1.01,1.06) skew(-0.9deg,0deg)}}@keyfra
         // inputElement[0].checked = true 对应灯开
         inputElement[0].checked = value.status;
         notyf.success("灯泡状态已初始化完成");
-      } else {
-        console.log(value);
+      }
+      if (value.code === 401) {
+        // {code: 401, msg: "Invalid token"}
+        notyf.error(`token不正确，请重新登录`);
+        setTimeout(() => {
+          window.location.href = origin;
+        }, 3000);
       }
     });
 
