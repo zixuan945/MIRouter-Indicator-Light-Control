@@ -98,7 +98,6 @@
         width: 25px;
         margin-right: 2px;
       }
-      
     </style>
   </head>
 
@@ -187,12 +186,17 @@
 
       function contentChange(li) {
         let id = li.dataset.tabId;
-        contents.forEach(function (content) {
+        /* contents.forEach(function (content) {
           if (content.dataset.tabId === id) {
             content.classList.add("current");
           } else {
             content.classList.remove("current");
           }
+        }); */
+        contents.forEach((content) => {
+          content.dataset.tabId === id
+            ? content.classList.add("current")
+            : content.classList.remove("current");
         });
       }
     </script>
