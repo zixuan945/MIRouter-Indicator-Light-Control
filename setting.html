@@ -1,134 +1,200 @@
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Setting</title>
     <style>
-        .setting {
-            display: flex;
-            background-color: rgb(129, 199, 199);
-        }
+      body {
+        background-color: #3498db;
+      }
+      .setting {
+        display: flex;
+        /* background-color: rgb(129, 199, 199); */
+        position: absolute;
+        right: 20px;
+        top: 20px;
+      }
 
-        .setting div {
-            width: 200px;
-            height: 250px;
-            background-color: rgb(120, 151, 197);
-        }
+      .setting > div {
+        /* width: 250px; */
+        height: 250px;
+        min-width: 280px;
+        background-color: #f1f2f6;
+        padding: 0 10px;
+        border-radius: 0 10px 10px 0;
+      }
 
-        .setting nav {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            margin: 0px;
-            padding: 0px;
-            background-color: rgb(151, 81, 81);
+      .setting nav {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin: 0px;
+        padding: 0px;
+        background-color: #16a085;
+        border-radius: 10px 0 0 10px;
+      }
 
-        }
+      .setting ul {
+        margin: 0px;
+        /* border: solid 2px #fff; */
+        list-style-type: none;
+        padding: 5px 0px;
 
-        .setting ul {
-            margin: 0px;
-            /* border: solid 2px #fff; */
-            list-style-type: none;
-            padding: 5px 0px;
+        font-size: large;
+        line-height: 30px;
+      }
 
-            font-size: large;
-            line-height: 30px;
-        }
+      .setting ul li {
+        /* border:solid 1px #aaddff ; */
+        text-align: center;
+        padding: 3px 10px;
+      }
 
-        .setting ul li {
-            /* border:solid 1px #aaddff ; */
-            text-align: center;
-            padding: 3px 10px;
+      nav a {
+        color: #1a2a3a;
+      }
 
-        }
+      nav a:link {
+        text-decoration: none;
+      }
 
-        nav a {
-            color: black;
-        }
+      nav li:hover {
+        background-color: #666699ce;
+      }
 
-        nav a:link {
-            text-decoration: none;
-        }
+      .content {
+        display: none;
+      }
 
-        nav li:hover {
-            background-color: #fff;
-        }
+      .content.current {
+        display: flex;
+      }
 
-        .content {
-            display: none;
-        }
-
-        .content.current {
-            display: block;
-        }
-
-        nav .highlight {
-            background-color: rgb(50, 177, 118);
-        }
+      nav .highlight {
+        background-color: #666699ce;
+      }
+      .content form {
+        margin: auto;
+        display: flex;
+        flex-direction: column;
+      }
+      .content form div {
+        position: relative;
+        /* height: 50px; */
+        border: 2px dashed #76aed3ab;
+        margin: 5px 0px;
+        padding: 5px;
+        border-radius: 8px;
+        background-color: #bec3c765;
+        /* padding: 5px; */
+      }
+      .content label {
+        /* border: 2px solid yellowgreen; */
+        /* border-radius: 5px; */
+        margin-right: 5px;
+      }
+      .content span {
+        display: inline-block;
+        width: 25px;
+        margin-right: 2px;
+      }
+      
     </style>
-</head>
+  </head>
 
-<body>
+  <body>
     <div class="setting">
-        <nav class='navigator'>
-            <ul>
-                <li data-tab-id='0'><a href="#">Position</a></li>
-                <li data-tab-id='1' class="highlight"><a href="#">Color</a></li>
-                <li data-tab-id='2'><a href="#">MaxClick</a></li>
-                <li data-tab-id='3'><a href="#">Test</a></li>
-            </ul>
-        </nav>
-        <div data-tab-id='0' class="content  ">
-            <p>1</p>
-        </div>
-        <div data-tab-id='1' class="content current">
-            <p>2</p>
-        </div>
-        <div data-tab-id='2' class="content">
-            <p>3</p>
-        </div>
-        <div data-tab-id='3' class="content">
-            <p>4</p>
-        </div>
-
+      <nav class="navigator">
+        <ul>
+          <li data-tab-id="0" class="highlight"><a href="#">Position</a></li>
+          <li data-tab-id="1"><a href="#">Color</a></li>
+          <li data-tab-id="2"><a href="#">MaxClick</a></li>
+          <li data-tab-id="3"><a href="#">Test</a></li>
+        </ul>
+      </nav>
+      <div data-tab-id="0" class="content current">
+        <form name="position">
+          <div>
+            <label for="position">灯泡位置</label>
+            <input
+              type="range"
+              name="position"
+              id="position"
+              min="0"
+              max="100"
+              step="5"
+              value="90"
+            />
+            <span class="positionvalue"></span>
+          </div>
+          <div>
+            <label for="color">颜色</label>
+            <input type="color" name="color" id="color" />
+          </div>
+          <div>
+            <label for="count">最大点击次数</label>
+            <input
+              type="number"
+              name="count"
+              id="count"
+              min="1"
+              max="20"
+              step="1"
+              value="5"
+            />
+          </div>
+        </form>
+        <script>
+          let form = document.querySelector("#position");
+          let result = document.querySelector(".positionvalue");
+          result.innerHTML = form.value;
+          form.oninput = function () {
+            result.innerHTML = form.value;
+          };
+        </script>
+      </div>
+      <div data-tab-id="1" class="content">
+        <p>2</p>
+      </div>
+      <div data-tab-id="2" class="content">
+        <p>3</p>
+      </div>
+      <div data-tab-id="3" class="content">
+        <p>4</p>
+      </div>
     </div>
     <script>
-        let nav = document.querySelector('nav.navigator');
-        let selectLi = nav.querySelector('ul li.highlight');
-        let contents = document.querySelectorAll('div.setting div.content');
-        nav.onclick = function (event) {
-            let target = event.target.closest('li');
-            if (!target) return;
-            highlight(target);
-            contentChange(target);
-            //TODO data-tab-id使用for循环自动生成
-            //TODO 完善页面内容
+      let nav = document.querySelector("nav.navigator");
+      let selectLi = nav.querySelector("ul li.highlight");
+      let contents = document.querySelectorAll("div.setting div.content");
+      nav.onclick = function (event) {
+        let target = event.target.closest("li");
+        if (!target) return;
+        highlight(target);
+        contentChange(target);
+        //TODO data-tab-id使用for循环自动生成
+        //TODO 完善页面内容
+      };
 
+      function highlight(li) {
+        if (selectLi) {
+          selectLi.classList.remove("highlight");
         }
 
-        function highlight(li) {
-            if (selectLi) {
-                selectLi.classList.remove('highlight')
-            }
+        selectLi = li;
+        selectLi.classList.add("highlight");
+      }
 
-            selectLi = li;
-            selectLi.classList.add('highlight');
-        }
-        
-        function contentChange(li) {
-            let id = li.dataset.tabId;
-            contents.forEach(function (content) {
-                if(content.dataset.tabId === id)   {
-                    content.classList.add('current')
-                }else {
-                    content.classList.remove('current')
-                }
-
-            })
-            
-        }
+      function contentChange(li) {
+        let id = li.dataset.tabId;
+        contents.forEach(function (content) {
+          if (content.dataset.tabId === id) {
+            content.classList.add("current");
+          } else {
+            content.classList.remove("current");
+          }
+        });
+      }
     </script>
-</body>
-
+  </body>
 </html>
